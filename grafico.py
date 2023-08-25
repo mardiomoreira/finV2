@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, os
 from mes_extenso import *
 import locale
 from reportlab.lib.pagesizes import letter
@@ -63,8 +63,12 @@ for row in rel:
 # Defina uma lista de cores sortidas
 cores = [random.choice(['#FF5733', '#33FF57', '#5733FF', '#FF33E8', '#33E8FF']) for _ in meses]
 
+# diretorio absoluto
+diretorio_atual = os.path.dirname(os.path.abspath(__file__))
+nome_do_arquivo = "relatorio_financeiro.pdf"
+caminho_do_arquivo = os.path.join(diretorio_atual, nome_do_arquivo)
 # Criar um PDF com os resultados
-doc = SimpleDocTemplate("relatorio_financeiro.pdf", pagesize=letter)
+doc = SimpleDocTemplate("C:\\Fin_Foco\\relatorio_financeiro.pdf", pagesize=letter)
 elements = []
 
 # Adicionar o título

@@ -7,6 +7,8 @@ import re, datetime, locale, os, subprocess
 from database import MinhaBaseDeDados
 from datetime import datetime
 from tktooltip import ToolTip
+from tkinter import PhotoImage
+from PIL import Image, ImageTk
 import threading
 
 class JanelaCentrada:
@@ -22,7 +24,7 @@ class JanelaCentrada:
         self.jprincipal = Tk()
         self.jprincipal.iconbitmap("icone.ico")
         self.jprincipal.resizable(width=False,height=False)
-        self.jprincipal.title("Janela Centralizada")
+        self.jprincipal.title("..:: Finanças em Foco ::..")
         self.jprincipal.configure(background='white')
 
         # Obtém a largura e a altura da tela
@@ -116,7 +118,7 @@ class JanelaCentrada:
         self.btn_cadastrar.pack(side="left", padx=5)   
         self.btn_limpar.pack(side="left", padx=5)
         self.btn_update.pack(side="left",padx=5)
-        self.btn_rel.place(x=460,y=2)
+        self.btn_rel.place(x=456,y=12)
 
     def open_relatorio(self):
         try:
@@ -128,13 +130,15 @@ class JanelaCentrada:
             if os.path.exists(caminho_do_arquivo):
                 # Deleta o arquivo
                 subprocess.run(f"del {caminho_do_arquivo}",shell=True)
+                # Gerando o Relatório com Gráfico Atualizador
+                import grafico
                 # Abrindo o Relatório em PDF
-                os.system(command="start relatorio_financeiro.pdf")
+                os.system(command=f"start C:\\Fin_Foco\\relatorio_financeiro.pdf")
             else:
                 # Gerando o Relatório com Gráfico
                 import grafico
                 # Abrindo o Relatório em PDF
-                os.system(command="start relatorio_financeiro.pdf")
+                os.system(command=f"start C:\\Fin_Foco\\relatorio_financeiro.pdf")
         except Exception as e:
             # print(e)
             messagebox.showerror(title="Erro:",message="Erro ao abir relataório")
@@ -266,16 +270,16 @@ class JanelaCentrada:
         if self.id_update == None:
             messagebox.showinfo(title='Selecionar',message="Favor selecionar algum registro para atualizar")
         else:
-            messagebox.showinfo(title='Selecionar',message=f"ok id: {self.id_update}")
+            # messagebox.showinfo(title='Selecionar',message=f"ok id: {self.id_update}")
             base_dados= MinhaBaseDeDados()
             data=self.date_entry.get_date()
-            # data_datetime = datetime.strptime(data, '%Y-%m-%d')
-            data_formatada = data.strftime('%d/%m/%Y')
+            # dataf=datetime.strptime(data,'%d/%m/%Y')
+            # data_formatada=dataf.strftime('%Y-%m-%d')
             tipo=self.cbx_tipo.get()
             valor=self.ent_valor.get()
             descricao=self.ent_descricao.get()
             # print(f"ID: {self.id_update}, Data: {data_formatada}, Tipo: {tipo}, Descrição: {descricao}, Valor: {valor}")
-            base_dados.DB_atualizar_registro(id=self.id_update,data=data_formatada,tipo=tipo,descricao=descricao,valor=valor)
+            base_dados.DB_atualizar_registro(id=self.id_update,data=data,tipo=tipo,descricao=descricao,valor=valor)
             self.exibir_registros_na_treeview()
     
 if __name__ == "__main__":
