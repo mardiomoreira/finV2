@@ -1,0 +1,11 @@
+AV_Win
+financeiro.db
+relatorio_financeiro.pdf
+__pycache__
+config_pyinstaller.json
+teste.py
+teste_registro.py
+output
+dist
+build
+financeiro.spec
