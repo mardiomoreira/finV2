@@ -10,7 +10,7 @@ from tktooltip import ToolTip
 from tkinter import PhotoImage
 from PIL import Image, ImageTk
 import threading
-
+from por_mes import pesquisa_e_soma_por_mes
 class JanelaCentrada:
     def __init__(self):
         self.id_update=None
@@ -18,6 +18,18 @@ class JanelaCentrada:
         self.componentes()
         self.exibir_registros_na_treeview()
         self.calcular_saldo()
+        # Crie a barra de menu
+        self.barra_de_menu = tk.Menu(self.jprincipal)
+
+        # Crie um menu "Pesquisar"
+        self.menu_pesquisar = tk.Menu(self.barra_de_menu, tearoff=0)
+        self.menu_pesquisar.add_command(label="Por Mês", command=self.btn_por_mes)
+
+        # Adicione o menu "Pesquisar" à barra de menu
+        self.barra_de_menu.add_cascade(label="Pesquisar", menu=self.menu_pesquisar)
+
+        # Configure a janela principal para usar a barra de menu
+        self.jprincipal.config(menu=self.barra_de_menu)
         self.jprincipal.mainloop()
 
     def tela(self):
@@ -120,6 +132,50 @@ class JanelaCentrada:
         self.btn_update.pack(side="left",padx=5)
         self.btn_rel.place(x=456,y=12)
 
+    def btn_por_mes(self):
+        self.lbf_porMes=LabelFrame(self.jprincipal,text=" Pesquisa Mês ",labelanchor='n',border=2,padx=5,pady=5,background='white',font=('Arial',10,'bold italic'),width=50)
+        self.lbf_porMes.place(x=350,y=110,width=100)
+        meses = {
+            'Janeiro': '01',
+            'Fevereiro': '02',
+            'Março': '03',
+            'Abril': '04',
+            'Maio': '05',
+            'Junho': '06',
+            'Julho': '07',
+            'Agosto': '08',
+            'Setembro': '09',
+            'Outubro': '10',
+            'Novembro': '11',
+            'Dezembro': '12',
+        }
+        self.cbx_pmes = ttk.Combobox(self.lbf_porMes, values=list(meses.keys()),width=50)
+        self.cbx_pmes.pack()
+        def obter_numero_mes(event):
+            mes_selecionado = self.cbx_pmes.get()
+            numero_mes = meses.get(mes_selecionado)
+            if numero_mes:
+                # print(f'Número do mês: {numero_mes}')
+                registros, soma_entradas, soma_saidas = pesquisa_e_soma_por_mes(numero_mes)
+                # print(soma_entradas.replace(".","").replace(",","."), soma_saidas)
+                soma_entradas_formatada=soma_entradas.replace(".","").replace(",",".")
+                soma_entradas_formatada=float(soma_entradas_formatada)
+                soma_saidas_formatada=soma_saidas.replace(".","").replace(",",".")
+                soma_saidas_formatada=float(soma_saidas_formatada)
+                soma_total=soma_entradas_formatada - soma_saidas_formatada
+                locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+                soma_total_formatada= locale.format_string("%.2f", soma_total, grouping=True)
+                self.lbl_entrada.configure(text=soma_entradas)
+                self.lbl_saida.configure(text=soma_saidas)
+                self.lbl_total.configure(text=soma_total_formatada)
+                if len(registros)>0:
+                    # print("Popular Treeview")
+                    self.limpar_treeview()
+                    for registro in registros:
+                        # print(registro)
+                        self.tree_lancamentos.insert("","end",values=registro)
+        self.cbx_pmes.bind("<<ComboboxSelected>>", obter_numero_mes)
+        
     def open_relatorio(self):
         try:
             nome_do_arquivo = "relatorio_financeiro.pdf"
@@ -168,13 +224,13 @@ class JanelaCentrada:
         self.lbl_saida.configure(text=f"R$ {saida_formatado}")
         lbf_total=LabelFrame(self.jprincipal, text="Saldo Total",font=('Arial',9,'bold italic'),background="white")
         lbf_total.place(x=420,y=365)
-        lbl_total=Label(lbf_total,text="",background="white")
-        lbl_total.pack()
+        self.lbl_total=Label(lbf_total,text="",background="white")
+        self.lbl_total.pack()
         total = resultado_entradas - resultado_saidas
         total=float(total)
         total_aredondado= round(total,2)
         total_formatada=locale.format_string("%.2f",total_aredondado, grouping=True)
-        lbl_total.configure(text=f"R$ {total_formatada}")
+        self.lbl_total.configure(text=f"R$ {total_formatada}")
         
     def cadastrar_lancamento(self):
         campos_vazios = []

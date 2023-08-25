@@ -61,8 +61,8 @@ class MinhaBaseDeDados:
     def DB_fechar_conexao(self):
         self.conn.close()
 
-if __name__ == "__main__":
-    base_de_dados = MinhaBaseDeDados()
+# if __name__ == "__main__":
+#     base_de_dados = MinhaBaseDeDados()
     # resultado_entradas, resultado_saidas = base_de_dados.DB_calcular_soma_entradas_saidas()
     # print(resultado_entradas - resultado_saidas)
     # Exemplo de uso das funções
