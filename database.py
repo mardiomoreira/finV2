@@ -56,11 +56,16 @@ class MinhaBaseDeDados:
             return soma_entradas, soma_saidas
         except Exception as e:
             return None
-
+    def pesquisarpor_mes(self,mes):
+        self.cursor.execute(f"""SELECT * FROM tbl_lancamentos WHERE strftime('%m', data) = '{mes}'""")
+        registros = self.cursor.fetchall()
+        return registros
 
     def DB_fechar_conexao(self):
         self.conn.close()
-
+# m=MinhaBaseDeDados()
+# r=m.pesquisarpor_mes(mes="09")
+# print(r)
 # if __name__ == "__main__":
 #     base_de_dados = MinhaBaseDeDados()
     # resultado_entradas, resultado_saidas = base_de_dados.DB_calcular_soma_entradas_saidas()

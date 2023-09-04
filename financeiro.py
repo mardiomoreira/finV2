@@ -9,8 +9,9 @@ from datetime import datetime
 from tktooltip import ToolTip
 from tkinter import PhotoImage
 from PIL import Image, ImageTk
-import threading
+import threading, time
 from por_mes import pesquisa_e_soma_por_mes
+from grafico import Gerar_grafico
 class JanelaCentrada:
     def __init__(self):
         self.id_update=None
@@ -18,18 +19,6 @@ class JanelaCentrada:
         self.componentes()
         self.exibir_registros_na_treeview()
         self.calcular_saldo()
-        # Crie a barra de menu
-        self.barra_de_menu = tk.Menu(self.jprincipal)
-
-        # Crie um menu "Pesquisar"
-        self.menu_pesquisar = tk.Menu(self.barra_de_menu, tearoff=0)
-        self.menu_pesquisar.add_command(label="Por Mês", command=self.btn_por_mes)
-
-        # Adicione o menu "Pesquisar" à barra de menu
-        self.barra_de_menu.add_cascade(label="Pesquisar", menu=self.menu_pesquisar)
-
-        # Configure a janela principal para usar a barra de menu
-        self.jprincipal.config(menu=self.barra_de_menu)
         self.jprincipal.mainloop()
 
     def tela(self):
@@ -38,7 +27,17 @@ class JanelaCentrada:
         self.jprincipal.resizable(width=False,height=False)
         self.jprincipal.title("..:: Finanças em Foco ::..")
         self.jprincipal.configure(background='white')
+        # Crie um objeto Menu
+        self.barra_menu = tk.Menu(self.jprincipal)
+        # Crie um submenu sob "Pesquisa"
+        self.menu_pesquisa = tk.Menu(self.barra_menu, tearoff=0)
+        self.menu_pesquisa.add_command(label="Por Mês", command=self.btn_por_mes)
+        self.menu_pesquisa.add_command(label="Registros Por Mês",command=self.registros_por_mes)
+        # Adicione o submenu "Pesquisa" à barra de menu
+        self.barra_menu.add_cascade(label="Pesquisa", menu=self.menu_pesquisa)
 
+        # Configure a barra de menu na janela principal
+        self.jprincipal.config(menu=self.barra_menu)
         # Obtém a largura e a altura da tela
         largura_tela = self.jprincipal.winfo_screenwidth()
         altura_tela = self.jprincipal.winfo_screenheight()
@@ -51,7 +50,14 @@ class JanelaCentrada:
 
         # Define as dimensões e a posição da janela
         self.jprincipal.geometry("{}x{}+{}+{}".format(largura,altura,x, y))
-
+    def registros_por_mes(self):
+        from rel_total_separado_pMES import gerar_relatorio_pdf
+        db_path = "financeiro.db"
+        pdf_filename = "relatorio_financeiro_p_MES.pdf"
+        if os.path.isfile(pdf_filename):
+            os.remove(pdf_filename)
+        gerar_relatorio_pdf(db_path, pdf_filename)
+        os.system(f"start {pdf_filename}")
     def get_selected_date(self):
         selected_date = self.date_entry.get()
         print("Data selecionada:", selected_date)
@@ -178,27 +184,34 @@ class JanelaCentrada:
         
     def open_relatorio(self):
         try:
-            nome_do_arquivo = "relatorio_financeiro.pdf"
-            diretorio_atual = os.path.dirname(os.path.abspath(__file__))
-            # Constrói o caminho completo para o arquivo
-            caminho_do_arquivo = os.path.join(diretorio_atual, nome_do_arquivo)
-            caminho_do_arquivo = os.path.join(diretorio_atual, nome_do_arquivo)
-            if os.path.exists(caminho_do_arquivo):
-                # Deleta o arquivo
-                subprocess.run(f"del {caminho_do_arquivo}",shell=True)
-                # Gerando o Relatório com Gráfico Atualizador
-                import grafico
-                # Abrindo o Relatório em PDF
-                os.system(command=f"start C:\\Fin_Foco\\relatorio_financeiro.pdf")
+            g=Gerar_grafico()
+            if g == 0:
+                nome_do_arquivo = "relatorio_financeiro.pdf"
+                # diretorio_atual = os.path.dirname(os.path.abspath(__file__))
+                diretorio_atual = "C:\\Fin_Foco"
+                # Constrói o caminho completo para o arquivo
+                caminho_do_arquivo = os.path.join(diretorio_atual, nome_do_arquivo)
+                caminho_do_arquivo = os.path.join(diretorio_atual, nome_do_arquivo)
+                if os.path.exists(caminho_do_arquivo):
+                    # Deleta o arquivo
+                    subprocess.run(f"del {caminho_do_arquivo}",shell=True)
+                    # Gerando o Relatório com Gráfico Atualizador
+                    Gerar_grafico()
+                    # Abrindo o Relatório em PDF
+                    os.system(command=f"start C:\\Fin_Foco\\relatorio_financeiro.pdf")
+                else:
+                    # Gerando o Relatório com Gráfico
+                    Gerar_grafico()
+                    time.sleep(2)  # import time
+                    # Abrindo o Relatório em PDF
+                    os.system(command=f"start C:\\Fin_Foco\\relatorio_financeiro.pdf")
             else:
-                # Gerando o Relatório com Gráfico
-                import grafico
-                # Abrindo o Relatório em PDF
-                os.system(command=f"start C:\\Fin_Foco\\relatorio_financeiro.pdf")
+                pass
+            # end if
+            # print("Resposta:",g)
         except Exception as e:
-            # print(e)
             messagebox.showerror(title="Erro:",message="Erro ao abir relataório")
-            
+
     def executar_open_relatorio(self):
         threading.Thread(target=self.open_relatorio).start()
         

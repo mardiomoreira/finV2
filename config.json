@@ -1,0 +1,189 @@
+{
+ "version": "auto-py-to-exe-configuration_v1",
+ "pyinstallerOptions": [
+  {
+   "optionDest": "noconfirm",
+   "value": true
+  },
+  {
+   "optionDest": "filenames",
+   "value": "C:/PROJETOS/finV2/financeiro.py"
+  },
+  {
+   "optionDest": "onefile",
+   "value": true
+  },
+  {
+   "optionDest": "console",
+   "value": false
+  },
+  {
+   "optionDest": "ascii",
+   "value": false
+  },
+  {
+   "optionDest": "clean_build",
+   "value": false
+  },
+  {
+   "optionDest": "strip",
+   "value": false
+  },
+  {
+   "optionDest": "noupx",
+   "value": false
+  },
+  {
+   "optionDest": "disable_windowed_traceback",
+   "value": false
+  },
+  {
+   "optionDest": "embed_manifest",
+   "value": true
+  },
+  {
+   "optionDest": "uac_admin",
+   "value": false
+  },
+  {
+   "optionDest": "uac_uiaccess",
+   "value": false
+  },
+  {
+   "optionDest": "win_private_assemblies",
+   "value": false
+  },
+  {
+   "optionDest": "win_no_prefer_redirects",
+   "value": false
+  },
+  {
+   "optionDest": "bootloader_ignore_signals",
+   "value": false
+  },
+  {
+   "optionDest": "argv_emulation",
+   "value": false
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "babel.numbers"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "babel.date"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "tkinter"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "Pillow"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "PyPDF2"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "pywin32-ctypes"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "reportlab"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "tkcalendar"
+  },
+  {
+   "optionDest": "collect_submodules",
+   "value": "babel"
+  },
+  {
+   "optionDest": "collect_submodules",
+   "value": "tkinter"
+  },
+  {
+   "optionDest": "collect_submodules",
+   "value": "Pillow"
+  },
+  {
+   "optionDest": "collect_submodules",
+   "value": "PyPDF2"
+  },
+  {
+   "optionDest": "collect_submodules",
+   "value": "pywin32-ctypes"
+  },
+  {
+   "optionDest": "collect_submodules",
+   "value": "reportlab"
+  },
+  {
+   "optionDest": "collect_submodules",
+   "value": "tkcalendar"
+  },
+  {
+   "optionDest": "collect_all",
+   "value": "babel"
+  },
+  {
+   "optionDest": "collect_all",
+   "value": "tkinter"
+  },
+  {
+   "optionDest": "collect_all",
+   "value": "Pillow"
+  },
+  {
+   "optionDest": "collect_all",
+   "value": "PyPDF2"
+  },
+  {
+   "optionDest": "collect_all",
+   "value": "pywin32-ctypes"
+  },
+  {
+   "optionDest": "collect_all",
+   "value": "reportlab"
+  },
+  {
+   "optionDest": "collect_all",
+   "value": "tkcalendar"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/PROJETOS/finV2/database.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/PROJETOS/finV2/grafico.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/PROJETOS/finV2/mes_extenso.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/PROJETOS/finV2/por_mes.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/PROJETOS/finV2/rel.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/PROJETOS/finV2/icone.ico;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/PROJETOS/finV2/report48.png;."
+  }
+ ],
+ "nonPyinstallerOptions": {
+  "increaseRecursionLimit": true,
+  "manualArguments": ""
+ }
+}
